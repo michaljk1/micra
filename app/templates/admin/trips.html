@@ -1,0 +1,24 @@
+{% extends "pointer_base.html" %}
+{% block breadcrumb %}
+
+{% endblock %}
+{% block app_content %}
+    <h2>Tripy</h2>
+    <hr>
+        <ul>
+        {% for trip in trips %}
+            <li>
+                <h1><a href="{{ url_for('admin.view_trip', trip_id = trip.id ) }}">trip {{  trip.id }}</a>
+                </h1>
+            </li>
+        {% endfor %}
+        </ul>
+    {% if courses|length >0 %}
+    <hr>
+    {% endif %}
+    <div class="bottom_div">
+        <button type="button" onclick="window.location.href='{{ url_for('admin.add_trip') }}'"
+                class="btn btn-success btn-lg">Dodaj trip
+        </button>
+    </div>
+{% endblock %}

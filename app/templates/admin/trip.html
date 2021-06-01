@@ -1,0 +1,24 @@
+{% extends "pointer_base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block breadcrumb %}
+    <a href="{{ url_for('admin.view_trips') }}">
+        <pb> Tripy</pb>
+    </a>
+    /
+    <a href="{{ url_for('admin.view_trip', trip_id = trip.id) }}">
+        <pb> Trip {{ trip.id }} </pb>
+    </a>
+{% endblock %}
+{% block app_content %}
+        <ul>
+            {% for trip_user in trip.trip_users %}
+                <h1>{{ trip_user.user.name }} {{ trip_user.kilometers }}</h1>
+            {% endfor %}
+        </ul>
+        <div class="bottom_div">
+        <button type="button"
+                onclick="window.location.href='{{ url_for('admin.add_tripuser', trip_id = trip.id ) }}'"
+                class="btn btn-primary btn-lg">Dodaj usera
+        </button>
+    </div>
+{% endblock %}

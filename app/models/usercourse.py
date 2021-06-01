@@ -75,6 +75,7 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(20), nullable=False)
     is_confirmed = db.Column(db.Boolean, default=False)
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
+    trip_users = db.relationship('Tripuser', backref='user', lazy='dynamic')
     history_logins = db.relationship('LoginInfo', backref='user', lazy='dynamic')
     Roles = {
         'ADMIN': 'ADMIN',
