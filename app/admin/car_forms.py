@@ -11,11 +11,10 @@ from wtforms.validators import DataRequired
 class TripUserForm(FlaskForm):
     name = StringField('Użytkownik', validators=[DataRequired()])
     kilometers = IntegerField('Kilometry', default=0, validators=[DataRequired()])
-
-    # submit_button = SubmitField('Dodaj usera')
+    submit_button = SubmitField('Dodaj usera')
 
 class TripForm(FlaskForm):
-    update_balance = BooleanField('Zaktualizuj balans', validators=[DataRequired()])
+    update_balance = BooleanField('Zaktualizuj balans')
     trip_date = DateField('Data', format='%Y-%m-%d', validators=[DataRequired()])
-    trip_users = FieldList(FormField(TripUserForm))
+    # trip_users = FieldList(FormField(TripUserForm))
     submit_button = SubmitField('Dodaj trip')

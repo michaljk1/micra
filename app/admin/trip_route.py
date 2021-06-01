@@ -11,6 +11,7 @@ from app.admin.car_forms import TripForm, TripUserForm
 from app.models.car import Trip, Tripuser
 from app.admin import bp
 from app.models.usercourse import User
+from app.services import TripUtil
 
 
 @bp.route('/trips', methods=['GET'])
@@ -21,9 +22,10 @@ def view_trips():
 def add_trip():
     form = TripForm()
     if request.method == 'POST' and form.validate_on_submit():
-        new_trip = Trip(trip_date=form.trip_date.data, update_balance=form.update_balance.data)
-        db.session.add(new_trip)
-        db.session.commit()
+        trip_date = form.trip_date.data
+        update_balance = form.update_balance.data
+        TripUtil.add_trip(trip_date,update_balance)
+
         flash('Dodano trip', 'message')
         return redirect(url_for('admin.add_trip'))
     return render_template('admin/add_trip.html', form=form)
