@@ -17,10 +17,11 @@
         </ul>
         <div class="bottom_div">
     </div>
-
+        {%  if not period.settled %}
         <div class="bottom_div">
         <button type="button" onclick="window.location.href='{{ url_for('admin.settle', period_id = period.id)}}'"
                 class="btn btn-success btn-lg">Rozlicz
         </button>
+        {% endif %}
     </div>
 {% endblock %}
