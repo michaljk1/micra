@@ -25,3 +25,6 @@ class Config(object):
 
     TOKEN_EXPIRES_IN = 600  # seconds
 
+    GROUP_ID = 1
+    SPLITWISE_BEARER = 'bearer'
+
