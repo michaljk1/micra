@@ -1,0 +1,17 @@
+{% extends "pointer_base.html" %}
+{% block breadcrumb %}
+
+{% endblock %}
+{% block app_content %}
+    <h2>Okres</h2>
+    <hr>
+        <ul>
+        {% for period in periods %}
+            <li>
+                <h1><a href="{{ url_for('admin.view_period', period_id = period.id ) }}">period {{ period.month }} {{ period.year }}</a>
+                </h1>
+            </li>
+        {% endfor %}
+        </ul>
+    <hr>
+{% endblock %}

@@ -74,8 +74,10 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(40), nullable=False)
     role = db.Column(db.String(20), nullable=False)
     is_confirmed = db.Column(db.Boolean, default=False)
+    splitwise_id = db.Column(db.Integer)
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
     trip_users = db.relationship('Tripuser', backref='user', lazy='dynamic')
+    balances = db.relationship('Balance', backref='user', lazy='dynamic')
     history_logins = db.relationship('LoginInfo', backref='user', lazy='dynamic')
     Roles = {
         'ADMIN': 'ADMIN',
@@ -96,6 +98,12 @@ class User(UserMixin, db.Model):
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
+
+    def get_balance(self, month, year):
+        for balance in self.balances:
+            if balance.period.month == month and balance.period.year == year:
+                return balance
+        return None
 
     def is_teacher(self):
         return self.role == User.Roles['TEACHER']
