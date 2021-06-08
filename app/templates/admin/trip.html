@@ -1,5 +1,15 @@
 {% extends "pointer_base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block breadcrumb %}
     <a href="{{ url_for('admin.view_trips') }}">
         <pb> Tripy</pb>
@@ -10,15 +20,29 @@
     </a>
 {% endblock %}
 {% block app_content %}
-        <ul>
-            {% for trip_user in trip.trip_users %}
-                <h1>{{ trip_user.user.name }} {{ trip_user.kilometers }}</h1>
-            {% endfor %}
-        </ul>
-        <div class="bottom_div">
-        <button type="button"
-                onclick="window.location.href='{{ url_for('admin.add_tripuser', trip_id = trip.id ) }}'"
-                class="btn btn-primary btn-lg">Dodaj usera
-        </button>
-    </div>
+
+    {% if trip.update_balance %}
+        <h1>Przejazd płatny, {{ trip.total_kilometers }} kilometry</h1>
+    {% else %}
+        <h1>Darmowy przejazd, {{ trip.total_kilometers }} kilometry</h1>
+    {% endif %}
+    <br>
+    <table id="paginatedTable" class="display" style="width:100%">
+        <thead>
+        <th>User</th>
+        <th>Kilometry</th>
+        </thead>
+        <tbody>
+        {% for trip_user in trip.trip_users %}
+            <tr>
+                <td><p>{{ trip_user.user.name }}</p></td>
+                <td><p>{{ trip_user.kilometers }}</p></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{{ url_for('static', filename='js/paginated_table.js') }}"></script>
+
 {% endblock %}
+

@@ -38,6 +38,7 @@ def create_expense(settlement):
     response = requests.post(url=CREATE_EXPENSE_URL, data=expense.to_request(), headers=headers)
     return response
 
+
 def get_users_for_settlement(period):
     settlement_users: List[SettlementUser] = []
     for balance in period.balances:

@@ -1,24 +1,50 @@
 {% extends "pointer_base.html" %}
 {% block breadcrumb %}
 
+    {% block scripts %}
+        {{ super() }}
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    {% endblock %}
+    {% block styles %}
+        {{ super() }}
+        <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    {% endblock %}
+
 {% endblock %}
 {% block app_content %}
     <h2>Tripy</h2>
     <hr>
-        <ul>
+    <table id="paginatedTable" class="display" style="width:100%">
+        <thead>
+        <th>Data</th>
+        <th>Kilometry</th>
+        <th>Płatny</th>
+        <th> </th>
+        </thead>
+        <tbody>
         {% for trip in trips %}
-            <li>
-                <h1><a href="{{ url_for('admin.view_trip', trip_id = trip.id ) }}">trip {{  trip.id }}</a>
-                </h1>
-            </li>
+            <tr>
+                <td><p>{{ trip.trip_date }}</p></td>
+                <td><p>{{ trip.total_kilometers }}</p></td>
+                <td><p>{{ trip.update_balance }}</p></td>
+                <td>
+                    <a type="button"
+                       href='{{ url_for('admin.view_trip', trip_id = trip.id) }}'
+                       target="_blank"
+                       class="btn btn-success btn-sm">+
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
-        </ul>
-    {% if courses|length >0 %}
-    <hr>
-    {% endif %}
+        </tbody>
+    </table>
+
+
     <div class="bottom_div">
         <button type="button" onclick="window.location.href='{{ url_for('admin.add_trip') }}'"
                 class="btn btn-success btn-lg">Dodaj trip
         </button>
     </div>
+    <script src="{{ url_for('static', filename='js/paginated_table.js') }}"></script>
+
 {% endblock %}

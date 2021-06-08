@@ -1,5 +1,15 @@
 {% extends "pointer_base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block breadcrumb %}
     <a href="{{ url_for('admin.view_periods') }}">
         <pb> Okresy</pb>
@@ -10,18 +20,37 @@
     </a>
 {% endblock %}
 {% block app_content %}
-        <ul>
-            {% for balance in period.balances %}
-                <h1>{{ balance.user.name }} {{ balance.parking_kilometers }} {{ balance.parking_free_kilometers }} </h1>
-            {% endfor %}
-        </ul>
+
+    {% if period.settled %}
+        <h1>Okres został rozliczony.</h1>
+        {% else %}
+        <h1>Okres nie został rozliczony.</h1>
+    {% endif %}
+    <br>
+    <table id="paginatedTable" class="display" style="width:100%">
+        <thead>
+        <th>User</th>
+        <th>Kilometry</th>
+        <th>Kilometry darmowe</th>
+        </thead>
+        <tbody>
+        {% for balance in period.balances %}
+            <tr>
+                <td><p>{{ balance.user.name }}</p></td>
+                <td><p>{{ balance.parking_kilometers }}</p></td>
+                <td><p>{{ balance.parking_free_kilometers }}</p></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if not period.settled %}
         <div class="bottom_div">
-    </div>
-        {%  if not period.settled %}
-        <div class="bottom_div">
-        <button type="button" onclick="window.location.href='{{ url_for('admin.settle', period_id = period.id)}}'"
-                class="btn btn-success btn-lg">Rozlicz
-        </button>
-        {% endif %}
-    </div>
+            <button type="button" onclick="window.location.href='{{ url_for('admin.settle', period_id = period.id) }}'"
+                    class="btn btn-success btn-lg">Rozlicz
+            </button>
+        </div>
+    {% endif %}
+    <script src="{{ url_for('static', filename='js/paginated_table.js') }}"></script>
+
 {% endblock %}
